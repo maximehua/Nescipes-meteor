@@ -1,0 +1,48 @@
+import React, { Component, Card, Image } from 'react';
+import { Recipes } from '../api/recipes.js';
+import PropTypes from 'prop-types'; // ES6
+
+// Recipe component - represents a single todo item
+class RecipeListItems extends Component {
+  toggleChecked() {
+  // Set the checked property to the opposite of its current value
+  Recipes.update(this.props.recipe._id, {
+    $set: { checked: !this.props.recipe.checked },
+  });
+}
+
+deleteThisRecipe() {
+  Recipes.remove(this.props.recipe._id);
+}
+
+  render() {
+    // Give recipes a different className when they are checked off,
+    // so that we can style them nicely in CSS
+    const recipeClassName = this.props.recipe.checked ? 'checked' : '';
+
+    return (
+
+      <li className={recipeClassName}>
+          <button className="delete" onClick={this.deleteThisRecipe.bind(this)}>
+            &times;
+          </button>
+
+          <input
+            type="checkbox"
+            readOnly
+            checked={this.props.recipe.checked}
+            onClick={this.toggleChecked.bind(this)}
+          />
+        // <span className="text">{this.props.recipe.text}</span>
+        </li>
+    );
+  }
+}
+
+RecipeListItems.propTypes = {
+  // This component gets the recipe to display through a React prop.
+  // We can use propTypes to indicate it is required
+  recipe: PropTypes.object.isRequired,
+};
+
+export default RecipeListItems;

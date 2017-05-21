@@ -1,0 +1,57 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types'; // ES6
+
+
+import { Recipes } from '../api/recipes.js';
+
+import RecipeListItems from './recipe_list_items.jsx';
+import IngredientListItems from './ingredient_list_items.jsx';
+
+// RecipeList component - represents the whole RecipeList
+class RecipeList extends Component {
+  handleSubmit(event) {
+    event.preventDefault();
+
+    // Find the text field via the React ref
+    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+
+    Recipes.insert({
+      text,
+      createdAt: new Date(), // current time
+    });
+
+    // Clear form
+    ReactDOM.findDOMNode(this.refs.textInput).value = '';
+  }
+
+  renderRecipes() {
+    return this.props.recipes.map((recipe) => (
+      <Recipe key={recipe._id} recipe={recipe} />
+    ));
+  }
+
+  render() {
+    return (
+      <div className="recipes">
+        <header>
+          <h1>Recipes Suggested</h1>
+        </header>
+        <ul>
+          {this.renderRecipes()}
+        </ul>
+      </div>
+    );
+  }
+}
+
+RecipeList.propTypes = {
+  recipes: PropTypes.array.isRequired,
+};
+
+export default createContainer(() => {
+  return {
+    recipes: Recipes.find().fetch(),
+  };
+}, RecipeList);
