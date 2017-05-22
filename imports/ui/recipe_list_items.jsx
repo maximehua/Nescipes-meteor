@@ -6,7 +6,7 @@ class RecipeListItems extends Component {
   render() {
     return (
       <Card>
-        <Image src={this.props.recipe.illu} />
+        <Image src={`./images/${this.props.recipe.illu}`} className='recipeimage'/>
         <Card.Content>
           <Card.Header>
             {this.props.recipe.name}

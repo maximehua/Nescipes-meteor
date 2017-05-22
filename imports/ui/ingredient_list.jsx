@@ -3,6 +3,11 @@ import { Card, Header } from 'semantic-ui-react';
 import IngredientListItems from './ingredient_list_items';
 
 class IngredientList extends Component {
+  renderRecipes() {
+    return this.props.recipes.map((recipe) => (
+      <RecipeListItems key={recipe._id} recipe={recipe} />
+    ));
+  }
   render() {
     return (
       <div className="ingredients">

@@ -22,7 +22,7 @@ class IngredientListItems extends Component {
     const ingredientClassName = this.state.isToggleOn ? 'green' : 'grey'
     return (
       <Card onClick={this.handleClick} color={ ingredientClassName }>
-        <Image src={`./public/images/${this.props.image}`} />
+        <Image src={`./images/${this.props.image}`} />
         <Card.Content>
           <Card.Description>
             <p>{this.props.name}</p>

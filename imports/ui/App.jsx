@@ -9,10 +9,10 @@ class App extends Component {
   render() {
       return (
         <Grid>
-          <Grid.Column width={12}>
+          <Grid.Column width={11}>
             <IngredientList />
           </Grid.Column>
-          <Grid.Column width={4}>
+          <Grid.Column width={5}>
             <RecipeList />
           </Grid.Column>
         </Grid>
