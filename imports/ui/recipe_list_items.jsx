@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Modal, Button, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 class RecipeListItems extends Component {
   render() {
     return (
-      <Card>
-        <Image src={`./images/${this.props.recipe.illu}`} className='recipeimage'/>
-        <Card.Content>
-          <Card.Header>
-            {this.props.recipe.name}
-          </Card.Header>
-          <Card.Description>
-            {this.props.recipe.ingredients}
-          </Card.Description>
-        </Card.Content>
-      </Card>
+      <Modal trigger={
+        <Card>
+          <Image src={this.props.recipe.illu} />
+          <Card.Content>
+            <Card.Header>
+              {this.props.recipe.name}
+            </Card.Header>
+            <Card.Description>
+              {this.props.recipe.duree}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+        }>
+        <Modal.Header>{this.props.recipe.name}</Modal.Header>
+        <Modal.Content image>
+          <Image src={this.props.recipe.illu} className="popupImage"/>
+          <Modal.Description>
+            <Header>Ingredients</Header>
+            <p>{this.props.recipe.recette}</p>
+            <a href src={this.props.recipe.url} >Show me this recipe</a>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal>
+
     );
   }
 }

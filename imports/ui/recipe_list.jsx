@@ -9,7 +9,7 @@ import RecipeListItems from './recipe_list_items.jsx';
 
 class RecipeList extends Component {
   renderRecipes() {
-    return this.props.recipes.map((recipe) => (
+    return this.props.recipes.slice(0, 3).map((recipe) => (
       <RecipeListItems key={recipe._id} recipe={recipe} />
     ));
   }
@@ -17,7 +17,7 @@ class RecipeList extends Component {
     return(
       <div className="recipes">
         <header>
-          <h1>Suggested Recipes</h1>
+          <h3>Suggested Recipes</h3>
         </header>
         <ul>
           {this.renderRecipes()}
