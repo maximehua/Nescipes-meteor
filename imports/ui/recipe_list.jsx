@@ -6,7 +6,6 @@ import { Recipes } from '../api/recipes.js';
 
 import RecipeListItems from './recipe_list_items.jsx';
 
-
 class RecipeList extends Component {
   renderRecipes() {
     return this.props.recipes.slice(0, 3).map((recipe) => (
@@ -32,7 +31,14 @@ RecipeList.propTypes = {
 };
 
 export default createContainer(() => {
+  function filterRecipes() {
+    var recipes = Recipes.find().fetch();
+    var filteredRecipes = _.filter(recipes, (recipe) => {
+      return recipe.ingredients == active.ingredients;
+    })
+    return (filteredRecipes);
+  };
   return {
-    recipes: Recipes.find({}).fetch(),
+    recipes: filterRecipes(),
   };
 }, RecipeList);

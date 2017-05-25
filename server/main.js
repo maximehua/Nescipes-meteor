@@ -1,30 +1,117 @@
 import { Recipes } from '../imports/api/recipes.js';
+import { Ingredients } from '../imports/api/ingredients.js';
 
 Meteor.startup(function () {
 
-  // if (Recipes.find().count() === 0) {
-	// 	Recipes.insert({
-	// 		name : '',
-	// 		id : "01",
-	// 		ingredients:["Pan Crust","Cream","Mozarella","Eggs","Leak"],
-	// 		illu:"crousticremeux.jpg",
-	// 		url:"https://www.facebook.com/ChefClub.tv/videos/1408368609187748/",
-	// 	});
-  //   Recipes.insert({
-	// 		name : 'Crousti crémeux saumon',
-	// 		id : "02",
-	// 		ingredients:["Pan Crust","Cream","Mozarella","Eggs","Leak"],
-	// 		illu:"crousticremeux.jpg",
-	// 		url:"https://www.facebook.com/ChefClub.tv/videos/1408368609187748/",
-	// 	});
-  //   Recipes.insert({
-	// 		name : 'Crousti crémeux saumon',
-	// 		id : "03",
-	// 		ingredients:["Pan Crust","Cream","Mozarella","Eggs","Leak"],
-	// 		illu:"crousticremeux.jpg",
-	// 		url:"https://www.facebook.com/ChefClub.tv/videos/1408368609187748/",
-	// 	});
-  // }
+  //utiliser les alias
+
+  if (Ingredients.find().count() === 0) {
+		Ingredients.insert({
+			name : 'Beef',
+			id : "01",
+  		alias:[""],
+      active: false,
+			illu:"/images/beef.png",
+		});
+    Ingredients.insert({
+			name : 'Chicken',
+			id : "02",
+      alias:[],
+      active: false,
+			illu:"/images/chicken.png",
+		});
+    Ingredients.insert({
+			name : 'Pork',
+			id : "03",
+      active: false,
+			alias:[""],
+			illu:"/images/pork.png",
+		});
+    Ingredients.insert({
+      name : 'Salmon',
+      id : "04",
+      active: false,
+      alias:[""],
+      illu:"/images/salmon.png",
+    });
+    Ingredients.insert({
+      name : 'Tofu',
+      id : "05",
+      active: false,
+      alias:[""],
+      illu:"/images/tofu.png",
+    });
+    Ingredients.insert({
+      name : 'Tomatoes',
+      id : "06",
+      active: false,
+      alias:[""],
+      illu:"/images/tomato.png",
+    });
+    Ingredients.insert({
+      name : 'Onions',
+      id : "07",
+      active: false,
+      alias:[""],
+      illu:"/images/onions.png",
+    });
+    Ingredients.insert({
+      name : 'Mushrooms',
+      id : "08",
+      active: false,
+      alias:[""],
+      illu:"/images/mushrooms.png",
+    });
+    Ingredients.insert({
+      name : 'Bell Peppers',
+      id : "09",
+      active: false,
+      alias:[""],
+      illu:"/images/peppers.png",
+    });
+    Ingredients.insert({
+      name : 'Zucchini',
+      id : "10",
+      active: false,
+      alias:[""],
+      illu:"/images/zucchini.png",
+    });
+    Ingredients.insert({
+      name : 'Rice',
+      id : "11",
+      active: false,
+      alias:["Riz"],
+      illu:"/images/rice.png",
+    });
+    Ingredients.insert({
+      name : 'Potatoes',
+      id : "12",
+      active: false,
+      alias:["Pomme de terre","Patates"],
+      illu:"/images/potatoes.png",
+    });
+    Ingredients.insert({
+      name : 'Pasta',
+      id : "13",
+      active: false,
+      alias:["Pâtes","Spaghetti","Penne","Pâtes","Pasta"],
+      illu:"/images/pasta.png",
+    });
+    Ingredients.insert({
+      name : 'Quiche Dough',
+      id : "14",
+      active: false,
+      alias:["Pâte à tarte","Pâte feuilletée"],
+      illu:"/images/quiche.png",
+    });
+    Ingredients.insert({
+      name : 'Pizza Dough',
+      id : "15",
+      active: false,
+      alias:["Pâte à pizza"],
+      illu:"/images/pizza.png",
+    });
+  }
 
   //code to fill Recipes DB with Marmiton website
 
@@ -33,7 +120,7 @@ Meteor.startup(function () {
     var Crawler = require('crawler');
 
     var c = new Crawler({
-        rateLimit: 2000,
+        rateLimit: 1000,
         maxConnections: 1,
         skipDuplicates : true,
         jQuery: {
@@ -54,6 +141,7 @@ Meteor.startup(function () {
               var recette = {};
 
               recette['name'] = $(".m_title .item span").text();
+
               recette['illu'] = $(".m_content_recette_illu img").attr("src");
               recette['url'] = url;
               recette['durees'] = {
@@ -86,7 +174,12 @@ Meteor.startup(function () {
               recette['ingredients'] = recette['ingredients'].filter(String);
               recette['recette'] = $(".m_content_recette_todo").text().trim();
 
-              Meteor.call("update",recette);
+              if (typeof recette['illu']!= 'undefined'){
+                Meteor.call("update",recette);
+              }
+              else {
+                console.log('Y a pas dimage');
+              }
 
               var listLinks = $('a').toArray();
               var queue = [];

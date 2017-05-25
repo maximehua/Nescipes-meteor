@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Image } from 'semantic-ui-react'
-
-
+import PropTypes from 'prop-types';
 
 class IngredientListItems extends Component {
   constructor(props) {
@@ -22,15 +21,21 @@ class IngredientListItems extends Component {
     const ingredientClassName = this.state.isToggleOn ? 'green' : 'grey'
     return (
       <Card onClick={this.handleClick} color={ ingredientClassName }>
-        <Image src={`./images/${this.props.image}`} />
+        <Image src={this.props.ingredient.illu} />
         <Card.Content>
           <Card.Description>
-            <p>{this.props.name}</p>
+            <p>{this.props.ingredient.name}</p>
           </Card.Description>
         </Card.Content>
       </Card>
     );
   }
 }
+
+IngredientListItems.propTypes = {
+  // This component gets the recipe to display through a React prop.
+  // We can use propTypes to indicate it is required
+  ingredient: PropTypes.object.isRequired,
+};
 
 export default IngredientListItems;
