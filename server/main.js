@@ -25,7 +25,7 @@ Meteor.startup(function () {
 			id : "03",
       active: false,
 			alias:[""],
-			illu:"/images/pork.png",
+			illu:"/images/pork.jpg",
 		});
     Ingredients.insert({
       name : 'Salmon',
@@ -39,7 +39,7 @@ Meteor.startup(function () {
       id : "05",
       active: false,
       alias:[""],
-      illu:"/images/tofu.png",
+      illu:"/images/tofu.jpg",
     });
     Ingredients.insert({
       name : 'Tomatoes',
@@ -67,14 +67,14 @@ Meteor.startup(function () {
       id : "09",
       active: false,
       alias:[""],
-      illu:"/images/peppers.png",
+      illu:"/images/peppers.jpg",
     });
     Ingredients.insert({
       name : 'Zucchini',
       id : "10",
       active: false,
       alias:[""],
-      illu:"/images/zucchini.png",
+      illu:"/images/zucchini.jpg",
     });
     Ingredients.insert({
       name : 'Rice',
