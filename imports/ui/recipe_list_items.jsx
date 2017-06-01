@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
-import { Card, Image, Modal, Button, Header } from 'semantic-ui-react';
+import { Card, Image, Modal, Button, Header, Icon, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 class RecipeListItems extends Component {
+  state = { modalOpen: false }
+
+  handleOpen = (e) => this.setState({
+    modalOpen: true,
+  })
+
+  handleClose = (e) => this.setState({
+    modalOpen: false,
+  })
+
+  handleClick() {
+    //function to send to the Arduino
+  }
+
   render() {
     return (
       <Modal trigger={
-        <Card>
+        <Card onClick={this.handleOpen} >
           <Image src={this.props.recipe.illu} />
           <Card.Content>
             <Card.Header>
@@ -17,15 +31,26 @@ class RecipeListItems extends Component {
             </Card.Description>
           </Card.Content>
         </Card>
-        }>
+        }
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>{this.props.recipe.name}</Modal.Header>
         <Modal.Content image>
           <Image src={this.props.recipe.illu} className="popupImage"/>
           <Modal.Description>
             <Header>Ingredients</Header>
             <p>{this.props.recipe.recette}</p>
-            <a href src={this.props.recipe.url} >Show me this recipe</a>
           </Modal.Description>
+          <Modal.Actions>
+            <Button color='red' inverted onClick={this.handleClose} >
+              <Icon name='undo' /> Look for another
+            </Button>
+            <Divider />
+            <Button color='green' inverted>
+              <Icon name='checkmark' /> Validate
+            </Button>
+          </Modal.Actions>
         </Modal.Content>
       </Modal>
 

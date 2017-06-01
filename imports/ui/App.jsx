@@ -18,8 +18,7 @@ class App extends Component {
 
   render() {
     return (
-      <Modal
-        trigger={
+      <Modal trigger={
           <Grid>
             <Grid.Column width={11}>
               <IngredientList />
