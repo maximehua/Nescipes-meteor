@@ -1,3 +1,5 @@
+import { Ingredients } from '../imports/api/ingredients.js';
+
 Meteor.startup(function () {
 
   //DB Ingredients

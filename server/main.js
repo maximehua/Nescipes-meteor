@@ -1,117 +1,6 @@
 import { Recipes } from '../imports/api/recipes.js';
-import { Ingredients } from '../imports/api/ingredients.js';
 
 Meteor.startup(function () {
-
-  //utiliser les alias
-
-  if (Ingredients.find().count() === 0) {
-		Ingredients.insert({
-			name : 'Beef',
-			id : "01",
-  		alias:[""],
-      active: false,
-			illu:"/images/beef.png",
-		});
-    Ingredients.insert({
-			name : 'Chicken',
-			id : "02",
-      alias:[],
-      active: false,
-			illu:"/images/chicken.png",
-		});
-    Ingredients.insert({
-			name : 'Pork',
-			id : "03",
-      active: false,
-			alias:[""],
-			illu:"/images/pork.jpg",
-		});
-    Ingredients.insert({
-      name : 'Salmon',
-      id : "04",
-      active: false,
-      alias:[""],
-      illu:"/images/salmon.png",
-    });
-    Ingredients.insert({
-      name : 'Tofu',
-      id : "05",
-      active: false,
-      alias:[""],
-      illu:"/images/tofu.jpg",
-    });
-    Ingredients.insert({
-      name : 'Tomatoes',
-      id : "06",
-      active: false,
-      alias:[""],
-      illu:"/images/tomato.png",
-    });
-    Ingredients.insert({
-      name : 'Onions',
-      id : "07",
-      active: false,
-      alias:[""],
-      illu:"/images/onions.png",
-    });
-    Ingredients.insert({
-      name : 'Mushrooms',
-      id : "08",
-      active: false,
-      alias:[""],
-      illu:"/images/mushrooms.png",
-    });
-    Ingredients.insert({
-      name : 'Bell Peppers',
-      id : "09",
-      active: false,
-      alias:[""],
-      illu:"/images/peppers.jpg",
-    });
-    Ingredients.insert({
-      name : 'Zucchini',
-      id : "10",
-      active: false,
-      alias:[""],
-      illu:"/images/zucchini.jpg",
-    });
-    Ingredients.insert({
-      name : 'Rice',
-      id : "11",
-      active: false,
-      alias:["Riz"],
-      illu:"/images/rice.png",
-    });
-    Ingredients.insert({
-      name : 'Potatoes',
-      id : "12",
-      active: false,
-      alias:["Pomme de terre","Patates"],
-      illu:"/images/potatoes.png",
-    });
-    Ingredients.insert({
-      name : 'Pasta',
-      id : "13",
-      active: false,
-      alias:["Pâtes","Spaghetti","Penne","Pâtes","Pasta"],
-      illu:"/images/pasta.png",
-    });
-    Ingredients.insert({
-      name : 'Quiche Dough',
-      id : "14",
-      active: false,
-      alias:["Pâte à tarte","Pâte feuilletée"],
-      illu:"/images/quiche.png",
-    });
-    Ingredients.insert({
-      name : 'Pizza Dough',
-      id : "15",
-      active: false,
-      alias:["Pâte à pizza"],
-      illu:"/images/pizza.png",
-    });
-  }
 
   //code to fill Recipes DB with Marmiton website
 
@@ -134,11 +23,14 @@ Meteor.startup(function () {
             console.log(error);
           }
           else if (res.request.uri.href.search("recettes") >= 0) {
-            console.log("c'est une recette");
+
+              console.log("c'est une recette");
 
               var url = res.request.uri.href;
               let $ = res.$;
               var recette = {};
+              var recettevalide = true;
+
 
               recette['name'] = $(".m_title .item span").text();
 
@@ -167,6 +59,7 @@ Meteor.startup(function () {
               _.each(recette['ingredients'], function(element,index){
                 recette['ingredients'][index] = element.trim();
                 if (recette['ingredients'][index] === "") {
+                  //remplacer les alias des ingrédients par le nom des ingrédients dans la BDD. Si y a pas d'ingrédient, on la prend pas -> recettevalide=false;
                   delete recette['ingredients'][index];
                 }
               });
@@ -174,12 +67,17 @@ Meteor.startup(function () {
               recette['ingredients'] = recette['ingredients'].filter(String);
               recette['recette'] = $(".m_content_recette_todo").text().trim();
 
-              if (typeof recette['illu']!= 'undefined'){
+              if (typeof recette['illu']== 'undefined'){
+                recettevalide=false;
+              }
+
+              if (recettevalide){
                 Meteor.call("update",recette);
               }
               else {
                 console.log('Y a pas dimage');
               }
+
 
               var listLinks = $('a').toArray();
               var queue = [];
